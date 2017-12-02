@@ -22,7 +22,7 @@ class BooksSpider(scrapy.Spider):
         try:
             for item in json_dict['comments']:
                 time1 = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(item['time'] / 1000))
-                if item['user']['nickname'] == "曳光剂":
+                if item['user']['nickname'] == "清酒祭天真":
                     print("%s 说：%s ,时间：%s" % (item['user']['nickname'], item['content'], time1))
                     return
             self.page = self.page + 20
@@ -33,12 +33,12 @@ class BooksSpider(scrapy.Spider):
     def to_request(self):
         first_param = '{rid:\"\", offset: \"%s\", total:\"true\", limit:\"20\", csrf_token:\"\"} ' % self.page
         return scrapy.FormRequest(
-            url="http://music.163.com/weapi/v1/resource/comments/R_SO_4_186016?csrf_token=9db84dfc080a17b3078c5bd4a76d4cc4",
-            headers=headers
-            , formdata={
+            url = "http://music.163.com/weapi/v1/resource/comments/R_SO_4_516657051?csrf_token=9db84dfc080a17b3078c5bd4a76d4cc4",
+            headers = headers
+            , formdata = {
                 "params": get_params(first_param),
                 "encSecKey": get_encSecKey()
-            }, callback=self.parse)
+            }, callback = self.parse)
 
 
 headers = {
@@ -60,7 +60,7 @@ def get_params(first_param):
     return h_encText
 
 
-def get_encSecKey():
+def get_encSecKey( ):
     encSecKey = "257348aecb5e556c066de214e531faadd1c55d814f9be95fd06d6bff9f4c7a41f831f6394d5a3fd2e3881736d94a02ca919d952872e7d0a50ebfa1769a7a62d512f5f1ca21aec60bc3819a9c3ffca5eca9a0dba6d6f7249b06f5965ecfff3695b54e1c28f3f624750ed39e7de08fc8493242e26dbc4484a01c76f739e135637c"
     return encSecKey
 
@@ -71,5 +71,5 @@ def AES_encrypt(text, key, iv):
     encryptor = AES.new(key, AES.MODE_CBC, iv)
     encrypt_text = encryptor.encrypt(text)
     encrypt_text = base64.b64encode(encrypt_text)
-    encrypt_text = str(encrypt_text, encoding="utf-8")
+    encrypt_text = str(encrypt_text, encoding = "utf-8")
     return encrypt_text
